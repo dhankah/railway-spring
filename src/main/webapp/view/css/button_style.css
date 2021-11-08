@@ -1,0 +1,30 @@
+.custom {
+    color: #f0f0f0;
+    background-color: #E38597;
+    border-color: #E38597;
+}
+.custom:hover {
+    background-color: #C05D78;
+    border-color: #C05D78;
+}
+
+.custom:active   {
+    background-color: #C05D78;
+    border-color: #C05D78;
+}
+
+.danger {
+    color: #000000;
+    background-color: #ADC9C3;
+    border-color: #ADC9C3;
+}
+
+.danger:hover {
+    background-color: #6F9B91;
+    border-color: #6F9B91;
+}
+
+.danger:active {
+    background-color: #6F9B91;
+    border-color: #6F9B91;
+}

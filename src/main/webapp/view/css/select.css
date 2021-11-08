@@ -1,0 +1,21 @@
+label {
+    float: left;
+    display: block;
+    margin: 5px;
+    padding: 5px;
+    background: #E38597;
+    width: 30px;
+    height: 50px;
+}
+
+.seat-select {
+    display: none;
+}
+
+.seat-select:checked+label {
+    background: #6F9B91;
+}
+
+.occupied {
+    background: #ADC9C3;
+}
