@@ -6,13 +6,12 @@ import com.mospan.railwayspring.model.User;
 import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet
+//it may have a mapping, and it will
 public class IndexController extends HttpServlet {
     private static final Logger logger = Logger.getLogger(IndexController.class);
     @Override

@@ -1,6 +1,5 @@
 package com.mospan.railwayspring.controller;
 
-import com.mospan.railwayspring.model.Entity;
 import com.mospan.railwayspring.model.Route;
 
 import com.mospan.railwayspring.service.RouteService;
@@ -8,6 +7,10 @@ import com.mospan.railwayspring.service.StationService;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -19,48 +22,43 @@ import java.time.LocalTime;
 import java.util.List;
 
 
+
+
 @Controller
 public class RouteController {
     private static final Logger logger = Logger.getLogger(RouteController.class);
-
-    Entity findModel(String id) {
-        try {
-            return new RouteService().findById(Long.parseLong(id));
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
 
     /**
      * PUT /routes/{id}
      * Updates specified route
      */
 
-
-    protected void update(Entity route, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @PostMapping("/routes/{id}")
+    public RedirectView update(@PathVariable long id, HttpServletRequest req) {
+        Route route = new RouteService().findById(id);
         logger.info("updating route " + route.getId());
-        ((Route) route).setDepartTime(LocalTime.parse(req.getParameter("depart_time")));
-        ((Route) route).setTime(convertTime(req));
+        System.out.println("no use, i am here(");
+      /*  route.setDepartTime(LocalTime.parse(req.getParameter("depart_time")));
+        route.setTime(convertTime(req));
+        route.setStartStation(new StationService().find(req.getParameter("start_station")));
+        route.setEndStation(new StationService().find(req.getParameter("end_station")));
+        route.setPrice(Double.parseDouble(req.getParameter("price")));
+        new RouteService().update(route);*/
+        return new RedirectView(req.getContextPath() + "/routes/1/page");
 
-        ((Route) route).setStartStation(new StationService().find(req.getParameter("start_station")));
-        ((Route) route).setEndStation(new StationService().find(req.getParameter("end_station")));
-
-        ((Route) route).setPrice(Double.parseDouble(req.getParameter("price")));
-
-        new RouteService().update((Route) route);
-        resp.sendRedirect(req.getContextPath() + "/routes/1/page");
     }
 
     /**
      * GET /routes/{id}/edit
      * Displays edit form for given route
      */
-
-    protected void edit(Entity entity, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/routes/{id}/edit")
+    public String edit(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Route route = new RouteService().findById(id);
         logger.info("redirecting to route edit page");
-        req.setAttribute("route", (Route) entity);
+        req.setAttribute("route", route);
         req.setAttribute("stations", new StationService().findAll());
-        req.getRequestDispatcher("/view/routes/edit.jsp").forward(req, resp);
+        return "/view/routes/edit.jsp";
     }
 
     /**
@@ -68,26 +66,27 @@ public class RouteController {
      * Save new routes
      */
 
-    protected void store(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @PostMapping("routes")
+    public RedirectView store(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("saving a new route");
         Route route = new Route();
 
-        ((Route) route).setDepartTime(LocalTime.parse(req.getParameter("depart_time")));
+        route.setDepartTime(LocalTime.parse(req.getParameter("depart_time")));
 
-        ((Route) route).setTime(convertTime(req));
-        ((Route) route).setStartStation(new StationService().find(req.getParameter("start_station")));
-        ((Route) route).setEndStation(new StationService().find(req.getParameter("end_station")));
-        ((Route) route).setPrice(Double.parseDouble(req.getParameter("price")));
+        route.setTime(convertTime(req));
+        route.setStartStation(new StationService().find(req.getParameter("start_station")));
+        route.setEndStation(new StationService().find(req.getParameter("end_station")));
+        route.setPrice(Double.parseDouble(req.getParameter("price")));
         new RouteService().insert(route);
-        resp.sendRedirect(req.getContextPath() + "/routes/1/page");
+        return new RedirectView(req.getContextPath() + "/routes/1/page");
     }
 
     /**
      * GET /routes
      * Displays list of routes
      */
-
-    protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/routes/{id}/page")
+    public void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         goToPage(1, req, resp);
     }
 
@@ -95,11 +94,12 @@ public class RouteController {
      * DELETE routes/{id}
      * Removes a specified route from db
      */
-
-    protected void delete(Entity route, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @PostMapping(value="routes/{id}", params ="_method=delete")
+    public RedirectView delete(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Route route = new RouteService().findById(id);
         logger.info("deleting route " + route.getId());
-        new RouteService().delete((Route) route);
-        resp.sendRedirect(req.getContextPath() + "/routes/1/page");
+        new RouteService().delete(route);
+        return new RedirectView(req.getContextPath() + "/routes/1/page");
     }
 
     /**
@@ -120,7 +120,7 @@ public class RouteController {
      * Displays list of routes for the page {id}
      */
 
-    protected void goToPage(long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void goToPage(long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("forwarding to page " + id + " of routes");
         req.setAttribute("time", LocalTime.MIDNIGHT);
         req.setAttribute("stations", new StationService().findAll());

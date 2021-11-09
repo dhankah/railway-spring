@@ -7,10 +7,11 @@ import com.mospan.railwayspring.service.TicketService;
 import com.mospan.railwayspring.service.TripService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,23 +22,15 @@ import java.util.*;
 
 
 @Controller
-public class TripController extends ResourceController {
+public class TripController {
     private static final Logger logger = Logger.getLogger(TripController.class);
-    @Override
-    Entity findModel(String id) {
-        try {
-            return new TripService().findById(Long.parseLong(id));
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
 
     /**
      * GET /trips
      * Displays a page for trips search
      */
     @RequestMapping("/trips")
-    public String lost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("defaultLocale") == null) {
             req.getSession().setAttribute("defaultLocale", "en");
         }
@@ -55,13 +48,13 @@ public class TripController extends ResourceController {
     /**
      * Displays a page for selecting a ticket for a trip
      */
-    @Override
-    protected void choose(Entity trip, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/trips/{id}/choose")
+    public String choose(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("viewing page for seat selection");
-
+        Trip trip = new TripService().findById(id);
         List<Seat> seats = new ArrayList<>();
         TicketService ticketService = new TicketService();
-        Collection<Integer> occupied = ticketService.findSeats((Trip) trip);
+        Collection<Integer> occupied = ticketService.findSeats(trip);
 
         for (int i = 1; i < 37; i++) {
             Seat seat = new Seat();
@@ -73,25 +66,28 @@ public class TripController extends ResourceController {
         }
         req.setAttribute("trip", trip);
         req.setAttribute("seats", seats);
-        req.getRequestDispatcher("/view/trips/select_seat.jsp").forward(req, resp);;
+        return "/view/trips/select_seat.jsp";
     }
 
     /**
      * Displays a page with the route info
      */
-    @Override
-    protected void routeInfo(Entity trip, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("viewing info about route " + ((Trip)trip).getRoute().getId());
-        req.setAttribute("route", ((Trip)trip).getRoute());
-        req.getRequestDispatcher("/view/routes/route_info.jsp").forward(req, resp);
+    //there may be logical errors
+    @GetMapping("/trips/{id}/route_info")
+    public String routeInfo(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Route route = new TripService().findById(id).getRoute();
+        logger.info("viewing info about route " +route.getId());
+        req.setAttribute("route", route);
+        return "/view/routes/route_info.jsp";
     }
 
     /**
      * GET /trips/{id}/page
      * Displays list of trips for the user's request
      */
-    @Override
-    protected void goToPage(long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //should deal with absence of id here
+    @GetMapping("/trips/{id}/page")
+    public String goToPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("forwarding to page " + " of trips");
         ResourceBundle rb = ResourceBundle.getBundle("i18n.resources", new Locale((String) req.getSession().getAttribute("defaultLocale")));
 
@@ -142,6 +138,6 @@ public class TripController extends ResourceController {
 
 
         req.setAttribute("trips", trips);
-        req.getRequestDispatcher("/view/trips/list.jsp").forward(req, resp);
+        return "/view/trips/list.jsp";
     }
 }

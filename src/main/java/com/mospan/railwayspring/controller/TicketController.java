@@ -6,9 +6,13 @@ import com.mospan.railwayspring.service.TicketService;
 import com.mospan.railwayspring.service.TripService;
 import com.mospan.railwayspring.service.UserService;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,24 +23,17 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-@WebServlet (value = "/tickets/*")
-public class TicketController extends ResourceController{
+@Controller
+public class TicketController {
     private static final Logger logger = Logger.getLogger(TicketController.class);
-    @Override
-    Entity findModel(String id) {
-        try {
-            return new TicketService().findById(Long.parseLong(id));
-        } catch (NumberFormatException e) {
-            return null;
-        }
-    }
+
 
     /**
      * POST /tickets
      * Save new tickets
      */
-    @Override
-    protected void store(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @PostMapping("/tickets")
+    public RedirectView store(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("purchasing ticket");
         ResourceBundle rb = ResourceBundle.getBundle("i18n.resources", new Locale((String) req.getSession().getAttribute("defaultLocale")));
 
@@ -49,8 +46,7 @@ public class TicketController extends ResourceController{
             logger.info("purchasing ticket failed: user does not have enough money");
             req.getSession().setAttribute("errorMessage", rb.getString("not_enough"));
 
-            resp.sendRedirect(req.getHeader("Referer"));
-            return;
+            return new RedirectView(req.getHeader("Referer"));
         }
 
         Collection<Ticket> tickets = (new TicketService().findAllForUser(user.getId()).get(1));
@@ -63,8 +59,7 @@ public class TicketController extends ResourceController{
 
                     req.getSession().setAttribute("errorMessage", rb.getString("ticket_error"));
 
-                    resp.sendRedirect(req.getContextPath() + "/trips/" + trip.getId() + "/choose");
-                    return;
+                    return new RedirectView(req.getContextPath() + "/trips/" + trip.getId() + "/choose");
                 }
             }
         }
@@ -80,15 +75,15 @@ public class TicketController extends ResourceController{
         new UserService().update(user);
         new TicketService().insert(ticket);
         logger.info("ticket purchased successfully");
-        resp.sendRedirect(req.getContextPath() + "/cabinet");
+        return new RedirectView(req.getContextPath() + "/cabinet");
     }
 
     /**
      * GET /tickets
      * Displays list of tickets
      */
-    @Override
-    protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    @GetMapping("/tickets")
+    public String list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("viewing tickets");
         List<Ticket> upcomingTickets = ((List<Ticket>) new TicketService().findAllForUser(((User)req.getSession().getAttribute("user")).getId()).get(1));
         List<Ticket> oldTickets = ((List<Ticket>) new TicketService().findAllForUser(((User)req.getSession().getAttribute("user")).getId()).get(1));
@@ -96,17 +91,18 @@ public class TicketController extends ResourceController{
         req.setAttribute("upcoming_tickets", upcomingTickets);
         req.setAttribute("old_tickets", oldTickets);
 
-        req.getRequestDispatcher("/view/cabinet.jsp").forward(req, resp);
+        return"/view/cabinet.jsp";
     }
 
     /**
      * DELETE tickets/{id}
      * Removes a specified ticket from db
      */
-    @Override
-    protected void delete(Entity entity, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("deleting ticket " + entity.getId());
-        Ticket ticket = (Ticket) entity;
+    @PostMapping(value = "tickets/{id}", params = "_method=delete")
+    protected RedirectView delete(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Ticket ticket = new TicketService().findById(id);
+        logger.info("deleting ticket " + ticket.getId());
+
         if ((ticket.getTrip().getDepartDate().isAfter(LocalDate.now()) ||
                 ticket.getTrip().getDepartDate().isEqual(LocalDate.now())
                         && ticket.getTrip().getRoute().getDepartTime().isAfter(LocalTime.now()))) {
@@ -115,7 +111,7 @@ public class TicketController extends ResourceController{
             new UserService().update(user);
         }
         new TicketService().delete(ticket, true);
-        resp.sendRedirect(req.getContextPath() + "/cabinet");
+        return new RedirectView(req.getContextPath() + "/cabinet");
     }
 
 
