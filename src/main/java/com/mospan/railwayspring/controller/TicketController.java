@@ -91,7 +91,7 @@ public class TicketController {
         req.setAttribute("upcoming_tickets", upcomingTickets);
         req.setAttribute("old_tickets", oldTickets);
 
-        return"/view/cabinet.jsp";
+        return"forward:/view/cabinet.jsp";
     }
 
     /**

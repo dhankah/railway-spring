@@ -21,7 +21,7 @@ public class TopUpController {
     @GetMapping("/top_up")
     public String topUpPage() {
         logger.info("forwarding to top_up page");
-        return "/view/cabinet/top_up.jsp";
+        return "forward:/view/cabinet/top_up.jsp";
     }
 
     /**

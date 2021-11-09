@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -116,7 +115,7 @@ public class UserController {
     public String edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("forwarding to user edit page");
         req.setCharacterEncoding("utf8");
-        return "/view/cabinet/edit.jsp";
+        return "forward:/view/cabinet/edit.jsp";
     }
 
 
@@ -135,7 +134,7 @@ public class UserController {
         req.setAttribute("upcoming_tickets", upcomingTickets);
         req.setAttribute("old_tickets", oldTickets);
 
-       return "/view/cabinet/cabinet.jsp";
+       return "forward:/view/cabinet/cabinet.jsp";
     }
 
     /**
@@ -178,7 +177,7 @@ public class UserController {
     //unused id
     @GetMapping("/cabinet/{id}/change_password")
     public String changePassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        return "/view/cabinet/change_password.jsp";
+        return "forward:/view/cabinet/change_password.jsp";
     }
 
 

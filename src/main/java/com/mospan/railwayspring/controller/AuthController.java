@@ -21,13 +21,13 @@ public class AuthController {
     @GetMapping(value = "/auth/login")
     public String showLoginPage(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("forwarding to the login page");
-        return "/view/auth/login.jsp";
+        return "forward:/view/auth/login.jsp";
     }
 
     @GetMapping(value = "/auth/register")
     public String showRegisterPage(HttpServletRequest req, HttpServletResponse resp) {
         logger.info("forwarding to the register page");
-        return "/view/auth/register.jsp";
+        return "forward:/view/auth/register.jsp";
     }
 
     @PostMapping(value = "/auth/login")

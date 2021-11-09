@@ -42,7 +42,7 @@ public class TripController {
         req.setAttribute("min_date", LocalDate.now());
         req.setAttribute("max_date", LocalDate.now().plusDays(34));
 
-       return "/view/trips/list.jsp";
+       return "forward:/view/trips/list.jsp";
     }
 
     /**
@@ -66,7 +66,7 @@ public class TripController {
         }
         req.setAttribute("trip", trip);
         req.setAttribute("seats", seats);
-        return "/view/trips/select_seat.jsp";
+        return "forward:/view/trips/select_seat.jsp";
     }
 
     /**
@@ -78,7 +78,7 @@ public class TripController {
         Route route = new TripService().findById(id).getRoute();
         logger.info("viewing info about route " +route.getId());
         req.setAttribute("route", route);
-        return "/view/routes/route_info.jsp";
+        return "forward:/view/routes/route_info.jsp";
     }
 
     /**
@@ -138,6 +138,6 @@ public class TripController {
 
 
         req.setAttribute("trips", trips);
-        return "/view/trips/list.jsp";
+        return "forward:/view/trips/list.jsp";
     }
 }

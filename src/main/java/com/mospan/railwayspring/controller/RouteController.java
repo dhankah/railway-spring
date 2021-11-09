@@ -38,12 +38,12 @@ public class RouteController {
         Route route = new RouteService().findById(id);
         logger.info("updating route " + route.getId());
         System.out.println("no use, i am here(");
-      /*  route.setDepartTime(LocalTime.parse(req.getParameter("depart_time")));
+        route.setDepartTime(LocalTime.parse(req.getParameter("depart_time")));
         route.setTime(convertTime(req));
         route.setStartStation(new StationService().find(req.getParameter("start_station")));
         route.setEndStation(new StationService().find(req.getParameter("end_station")));
         route.setPrice(Double.parseDouble(req.getParameter("price")));
-        new RouteService().update(route);*/
+        new RouteService().update(route);
         return new RedirectView(req.getContextPath() + "/routes/1/page");
 
     }

@@ -225,14 +225,10 @@ V
 &src/main/webapp/view/stations/list.jsp,6\8\68668778362c464e1f7e9fd770cfa8dd2145af19
 S
 #src/main/webapp/view/auth/login.jsp,0\2\021257efb5776b07ba96bdb3c30b661b3069b513
-ƒ
-Ssrc/main/java/com/mospan/railwayspring/web/command/commands/auth/LogoutCommand.java,9\9\99434b47f75ccc710407372f208b85ec7054b397
 r
 Bsrc/main/java/com/mospan/railwayspring/util/PasswordEncryptor.java,2\e\2ee2440e7899f5c025955b7b302769b6696b6bc4
 V
 &src/main/webapp/view/auth/register.jsp,8\f\8f7a53361e4137e89859ada537532dd2aed7ecee
-…
-Usrc/main/java/com/mospan/railwayspring/web/command/commands/auth/RegisterCommand.java,8\4\840d123371c1e844550336454ff3bb27b1ccbe24
 f
 6src/main/java/com/mospan/railwayspring/model/Role.java,a\2\a2078071cd23af00f73f86cb1ddeb73122bde120
 g

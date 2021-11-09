@@ -62,7 +62,7 @@ public class StationController {
         Station station = new StationService().findById(id);
         req.setCharacterEncoding("UTF-8");
         req.setAttribute("station", station);
-        return "/view/stations/edit.jsp";
+        return "forward:/view/stations/edit.jsp";
     }
 
     /**
@@ -124,6 +124,6 @@ public class StationController {
 
         List<Station> stations = (List<Station>) new StationService().findRecords(id);
         req.setAttribute("stations", stations);
-        return "/view/stations/list.jsp";
+        return "forward:/view/stations/list.jsp";
     }
 }
