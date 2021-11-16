@@ -1,19 +1,20 @@
 package com.mospan.railwayspring.controller;
 
-import com.mospan.railwayspring.model.Entity;
-import com.mospan.railwayspring.model.Station;
+import com.mospan.railwayspring.model.db.Station;
+
 import com.mospan.railwayspring.service.StationService;
 import com.mospan.railwayspring.util.validator.Validator;
 import org.apache.log4j.Logger;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -21,6 +22,8 @@ import java.util.ResourceBundle;
 
 @Controller
 public class StationController {
+
+
 
     private static final Logger logger = Logger.getLogger(StationController.class);
     static Validator validator = new Validator();
@@ -32,14 +35,14 @@ public class StationController {
      * Updates specified station
      */
     @PostMapping("/stations/{id}")
-    public RedirectView update(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public RedirectView update(@PathVariable long id, HttpServletRequest req) throws ServletException, IOException {
         logger.info("updating station " + id);
         req.setCharacterEncoding("UTF-8");
         Station station = new StationService().findById(id);
         station.setName(req.getParameter("name"));
 
         if (validator.validateStations(station)) {
-            logger.info("updated station " + station.getId() + " successfuly");
+            logger.info("updated station " + station.getId() + " successfully");
             new StationService().update(station);
             return new RedirectView(req.getContextPath() + "/stations/1/page");
         }
@@ -57,7 +60,7 @@ public class StationController {
      */
 
     @GetMapping("/stations/{id}/edit")
-    public String edit(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String edit(@PathVariable long id, HttpServletRequest req) throws ServletException, IOException {
         logger.info("forwarding to station edit page");
         Station station = new StationService().findById(id);
         req.setCharacterEncoding("UTF-8");
@@ -70,7 +73,8 @@ public class StationController {
      * Save new stations
      */
     @PostMapping("/stations")
-    public RedirectView store(HttpServletRequest req, HttpServletResponse resp) {
+    public RedirectView store(HttpServletRequest req) {
+
         logger.info("saving station");
         Station station = new Station();
         station.setName(req.getParameter("name"));
@@ -93,7 +97,7 @@ public class StationController {
      * Displays list of stations
      */
     @GetMapping("/stations")
-    public void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void list(HttpServletRequest req) {
         goToPage(1, req);
     }
 
@@ -102,9 +106,10 @@ public class StationController {
      * Removes a specified station from db
      */
     @PostMapping(value = "stations/{id}", params = "_method=delete")
-    public RedirectView delete(Entity entity, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("deleting station " + ((Station) entity).getName());
-        new StationService().delete((Station) entity);
+    public RedirectView delete(@PathVariable long id, HttpServletRequest req) throws ServletException, IOException {
+        Station station = new StationService().findById(id);
+        logger.info("deleting station " + station.getName());
+        new StationService().delete(station);
         return new RedirectView(req.getContextPath() + "/stations/1/page");
     }
 

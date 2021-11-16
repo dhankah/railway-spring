@@ -1,0 +1,61 @@
+
+m
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(Û‹Ž¡úÿÿÿÿ
+U
+java:S1161":Add the "@Override" annotation above this method signature(Û‹Ž¡úÿÿÿÿ
+7	java:S131<""Add a default case to this switch.(ãØ´ú
+<	java:S131F""Add a default case to this switch.(ë´åÝþÿÿÿÿ
+’
+java:S1130s"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(Ü–Øøÿÿÿÿ
+E
+java:S1172s"*Remove this unused method parameter "req".(Ü–Øøÿÿÿÿ
+’
+java:S1130w"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(Ý–ðÃùÿÿÿÿ
+A
+java:S1172w"&Remove these unused method parameters.(Ý–ðÃùÿÿÿÿ
+’
+java:S1130{"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(¢¢µÕúÿÿÿÿ
+A
+java:S1172{"&Remove these unused method parameters.(¢¢µÕúÿÿÿÿ
+Œ
+java:S1130"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(™Þìp
+;
+java:S1172"&Remove these unused method parameters.(™Þìp
+Ž
+java:S1130ƒ"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(ûè×Š
+A
+java:S1172ƒ"*Remove this unused method parameter "req".(ûè×Š
+Ž
+java:S1130‡"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(æ ¿Ü
+A
+java:S1172‡"*Remove this unused method parameter "req".(æ ¿Ü
+Ž
+java:S1130‹"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(ùÀÕá
+=
+java:S1172‹"&Remove these unused method parameters.(ùÀÕá
+Ž
+java:S1130"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(®èÁÅ
+=
+java:S1172"&Remove these unused method parameters.(®èÁÅ
+Ž
+java:S1130“"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(®ÁÒ½
+=
+java:S1172“"&Remove these unused method parameters.(®ÁÒ½
+“
+java:S1130—"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(ó›Ñÿÿÿÿÿ
+B
+java:S1172—"&Remove these unused method parameters.(ó›Ñÿÿÿÿÿ
+“
+java:S1130›"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(å¨úúúÿÿÿÿ
+B
+java:S1172›"&Remove these unused method parameters.(å¨úúúÿÿÿÿ
+“
+java:S1130Ÿ"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(Ð±«øøÿÿÿÿ
+F
+java:S1172Ÿ"*Remove this unused method parameter "req".(Ð±«øøÿÿÿÿ
+“
+java:S1130£"wRemove the declaration of thrown exception 'javax.servlet.ServletException', as it cannot be thrown from method's body.(¾Óî¼ÿÿÿÿÿ
+F
+java:S1172£"*Remove this unused method parameter "req".(¾Óî¼ÿÿÿÿÿ
+a
+java:S11927"KDefine a constant instead of duplicating this literal "Not found" 14 times.(¤ºŠÄ

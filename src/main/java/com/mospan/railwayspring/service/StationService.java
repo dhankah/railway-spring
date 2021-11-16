@@ -1,8 +1,8 @@
 package com.mospan.railwayspring.service;
 
 import com.mospan.railwayspring.dao.StationDao;
-import com.mospan.railwayspring.model.Route;
-import com.mospan.railwayspring.model.Station;
+import com.mospan.railwayspring.model.db.Route;
+import com.mospan.railwayspring.model.db.Station;
 
 import java.util.Collection;
 

@@ -1,6 +1,8 @@
 package com.mospan.railwayspring.controller;
 
 import com.mospan.railwayspring.model.*;
+import com.mospan.railwayspring.model.db.Route;
+import com.mospan.railwayspring.model.db.Trip;
 import com.mospan.railwayspring.service.RouteService;
 import com.mospan.railwayspring.service.StationService;
 import com.mospan.railwayspring.service.TicketService;
@@ -35,8 +37,7 @@ public class TripController {
             req.getSession().setAttribute("defaultLocale", "en");
         }
         ResourceBundle rb = ResourceBundle.getBundle("i18n.resources", new Locale((String) req.getSession().getAttribute("defaultLocale")));
-        System.out.println("hehehehehhehehheheh" + req.getSession().getAttribute("defaultLocale"));
-        System.out.println(rb.getString("login"));
+
         req.getSession().setAttribute("date", LocalDate.now());
         req.setAttribute("stations", new StationService().findAll());
         req.setAttribute("min_date", LocalDate.now());

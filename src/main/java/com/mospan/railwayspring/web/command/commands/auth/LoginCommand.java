@@ -1,9 +1,8 @@
 package com.mospan.railwayspring.web.command.commands.auth;
 
-import com.mospan.railwayspring.model.User;
+import com.mospan.railwayspring.model.db.User;
 import com.mospan.railwayspring.service.UserService;
 import com.mospan.railwayspring.util.PasswordEncryptor;
-import com.mospan.railwayspring.web.command.Command;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -29,6 +28,7 @@ public class LoginCommand {
         User user = userService.find(login);
 
         if (user == null || !user.getPassword().equals(password)) {
+
             logger.info("logging in failure: wrong login or password");
 
             request.getSession().setAttribute("errorMessage", rb.getString("wrong_login_password"));

@@ -2,9 +2,9 @@ package com.mospan.railwayspring.service;
 
 import com.mospan.railway.util.EmailSender;
 import com.mospan.railwayspring.dao.TripDao;
-import com.mospan.railwayspring.model.Route;
-import com.mospan.railwayspring.model.Ticket;
-import com.mospan.railwayspring.model.Trip;
+import com.mospan.railwayspring.model.db.Route;
+import com.mospan.railwayspring.model.db.Ticket;
+import com.mospan.railwayspring.model.db.Trip;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

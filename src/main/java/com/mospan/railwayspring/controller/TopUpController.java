@@ -1,5 +1,5 @@
 package com.mospan.railwayspring.controller;
-import com.mospan.railwayspring.model.User;
+import com.mospan.railwayspring.model.db.User;
 import com.mospan.railwayspring.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;

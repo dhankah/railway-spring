@@ -1,7 +1,7 @@
 package com.mospan.railwayspring.controller;
 
 
-import com.mospan.railwayspring.model.User;
+import com.mospan.railwayspring.model.db.User;
 
 import org.apache.log4j.Logger;
 

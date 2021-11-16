@@ -1,7 +1,8 @@
 package com.mospan.railwayspring.controller;
 
-import com.mospan.railwayspring.model.*;
-
+import com.mospan.railwayspring.model.db.Detail;
+import com.mospan.railwayspring.model.db.Ticket;
+import com.mospan.railwayspring.model.db.User;
 import com.mospan.railwayspring.service.TicketService;
 import com.mospan.railwayspring.service.UserService;
 
@@ -75,8 +76,9 @@ public class UserController {
         logger.info("updating user " + user.getId() + " info");
         User userUpd = new User();
         userUpd.setId(user.getId());
-        userUpd.setPassword(((User)user).getPassword());
+        userUpd.setPassword((user).getPassword());
         userUpd.setLogin(req.getParameter("login"));
+        userUpd.setRole(((User)req.getSession().getAttribute("user")).getRole());
         Detail detailUpd = new Detail();
         detailUpd.setId(user.getId());
         detailUpd.setFirstName(req.getParameter("first_name"));
@@ -86,20 +88,20 @@ public class UserController {
         userUpd.setDetails(detailUpd);
 
 
-        if (validator.validateUser((User) user, userUpd).equals("false")) {
+
+        if (validator.validateUser(user, userUpd).equals("false")) {
             logger.info("info update for user " + user.getId() + " failed: login or email already exists");
 
                 req.getSession().setAttribute("errorMessage", rb.getString("login_email_exists"));
 
             return new RedirectView(req.getContextPath() + "/cabinet/" + user.getId() + "/edit");
-        } else if (validator.validateUser((User) user, userUpd).equals("no_change")) {
+        } else if (validator.validateUser(user, userUpd).equals("no_change")) {
             logger.info("info update for user " + user.getId() + " failed: no changes were made");
             return new RedirectView(req.getContextPath() + "/cabinet");
         }
 
 
         req.getSession().setAttribute("message", rb.getString("profile_updated"));
-
 
         new UserService().update(userUpd);
         logger.info("info for user " + user.getId() + " updated successfully");
@@ -112,7 +114,7 @@ public class UserController {
      */
     //do sth with unused id
     @GetMapping("/cabinet/{id}/edit")
-    public String edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String edit(HttpServletRequest req) throws IOException {
         logger.info("forwarding to user edit page");
         req.setCharacterEncoding("utf8");
         return "forward:/view/cabinet/edit.jsp";
@@ -124,7 +126,7 @@ public class UserController {
      * Displays user's cabinet page
      */
     @GetMapping("/cabinet")
-    public String list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String list(HttpServletRequest req) {
         logger.info("forwarding to user cabinet page");
         long id = ((User)req.getSession().getAttribute("user")).getId();
         req.getSession().setAttribute("user", new UserService().findById(id));

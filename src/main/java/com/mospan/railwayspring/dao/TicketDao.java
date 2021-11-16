@@ -1,7 +1,7 @@
 package com.mospan.railwayspring.dao;
 
-import com.mospan.railwayspring.model.Ticket;
-import com.mospan.railwayspring.model.Trip;
+import com.mospan.railwayspring.model.db.Ticket;
+import com.mospan.railwayspring.model.db.Trip;
 import com.mospan.railwayspring.service.TripService;
 import com.mospan.railwayspring.service.UserService;
 

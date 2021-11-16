@@ -1,7 +1,8 @@
 package com.mospan.railwayspring.controller;
 
-import com.mospan.railwayspring.model.*;
-import com.mospan.railwayspring.service.StationService;
+import com.mospan.railwayspring.model.db.Ticket;
+import com.mospan.railwayspring.model.db.Trip;
+import com.mospan.railwayspring.model.db.User;
 import com.mospan.railwayspring.service.TicketService;
 import com.mospan.railwayspring.service.TripService;
 import com.mospan.railwayspring.service.UserService;

@@ -2,4 +2,8 @@ Manifest-Version: 1.0
 Created-By: IntelliJ IDEA
 Built-By: Dana
 Build-Jdk: version 16.0.1
+Implementation-Title: railway-spring
+Implementation-Version: 1.0-SNAPSHOT
+Implementation-Vendor-Id: com.mospan
+Main-Class: ${start-class}
 

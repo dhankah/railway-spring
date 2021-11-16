@@ -1,8 +1,8 @@
 package com.mospan.railwayspring.web.command.commands.auth;
 
-import com.mospan.railwayspring.model.Detail;
-import com.mospan.railwayspring.model.Role;
-import com.mospan.railwayspring.model.User;
+import com.mospan.railwayspring.model.db.Detail;
+import com.mospan.railwayspring.model.db.Role;
+import com.mospan.railwayspring.model.db.User;
 import com.mospan.railwayspring.service.UserService;
 import com.mospan.railwayspring.util.PasswordEncryptor;
 import com.mospan.railwayspring.util.validator.Validator;

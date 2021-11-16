@@ -2,8 +2,8 @@ package com.mospan.railwayspring.service;
 
 
 import com.mospan.railwayspring.dao.TicketDao;
-import com.mospan.railwayspring.model.Ticket;
-import com.mospan.railwayspring.model.Trip;
+import com.mospan.railwayspring.model.db.Ticket;
+import com.mospan.railwayspring.model.db.Trip;
 import com.mospan.railway.util.EmailSender;
 
 import java.util.Collection;

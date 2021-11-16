@@ -1,6 +1,6 @@
 package com.mospan.railwayspring.controller;
 
-import com.mospan.railwayspring.model.Route;
+import com.mospan.railwayspring.model.db.Route;
 
 import com.mospan.railwayspring.service.RouteService;
 import com.mospan.railwayspring.service.StationService;

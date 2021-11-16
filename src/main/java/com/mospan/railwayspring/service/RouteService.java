@@ -3,9 +3,9 @@ package com.mospan.railwayspring.service;
 
 import com.mospan.railwayspring.dao.RouteDao;
 
-import com.mospan.railwayspring.model.Route;
-import com.mospan.railwayspring.model.Station;
-import com.mospan.railwayspring.model.Trip;
+import com.mospan.railwayspring.model.db.Route;
+import com.mospan.railwayspring.model.db.Station;
+import com.mospan.railwayspring.model.db.Trip;
 
 import java.util.Collection;
 

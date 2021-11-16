@@ -1,6 +1,6 @@
 package com.mospan.railwayspring.web.filter;
 
-import com.mospan.railwayspring.model.User;
+import com.mospan.railwayspring.model.db.User;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;

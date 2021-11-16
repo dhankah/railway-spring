@@ -1,8 +1,8 @@
 package com.mospan.railwayspring.dao;
 
-import com.mospan.railwayspring.model.Route;
-import com.mospan.railwayspring.model.Station;
-import com.mospan.railwayspring.model.Trip;
+import com.mospan.railwayspring.model.db.Route;
+import com.mospan.railwayspring.model.db.Station;
+import com.mospan.railwayspring.model.db.Trip;
 import com.mospan.railwayspring.service.StationService;
 import com.mospan.railwayspring.service.TripService;
 import org.apache.log4j.Logger;

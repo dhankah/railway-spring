@@ -1,7 +1,7 @@
 package com.mospan.railwayspring.util.trips_creator;
 
-import com.mospan.railwayspring.model.Route;
-import com.mospan.railwayspring.model.Trip;
+import com.mospan.railwayspring.model.db.Route;
+import com.mospan.railwayspring.model.db.Trip;
 import com.mospan.railwayspring.service.RouteService;
 import com.mospan.railwayspring.service.TripService;
 import org.apache.log4j.Logger;

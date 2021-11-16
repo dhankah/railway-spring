@@ -2,7 +2,8 @@ package com.mospan.railwayspring.util.validator;
 
 
 import com.mospan.railwayspring.dao.ConnectionPool;
-import com.mospan.railwayspring.model.*;
+import com.mospan.railwayspring.model.db.Station;
+import com.mospan.railwayspring.model.db.User;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;

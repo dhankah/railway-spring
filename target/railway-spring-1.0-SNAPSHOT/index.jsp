@@ -1,2 +1,1 @@
-<jsp:include page="/trips"/>
-
+<% response.sendRedirect(request.getContextPath() + "/trips");%>
