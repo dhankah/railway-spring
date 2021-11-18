@@ -101,8 +101,11 @@ public class TripController {
         Collection<Trip> trips = new ArrayList<>();
         Collection<Route> routes = new RouteService().findByStations((req.getParameter("depart_station")), req.getParameter("arrival_station"));
 
-        if (routes != null) {
+
+
+        if (!routes.isEmpty()) {
             for (Route route : routes) {
+                logger.info("will look for records now. with route " + route + " date " + req.getParameter("depart_date"));
                 Collection<Trip> tripsForRoute = new TripService().findRecords(route, LocalDate.parse(req.getParameter("depart_date")));
                 if (tripsForRoute != null) {
                     for (Trip trip : tripsForRoute) {

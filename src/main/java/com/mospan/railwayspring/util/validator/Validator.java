@@ -5,6 +5,8 @@ import com.mospan.railwayspring.dao.ConnectionPool;
 import com.mospan.railwayspring.model.db.Station;
 import com.mospan.railwayspring.model.db.User;
 import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +20,15 @@ public class Validator {
     Connection con;
 
     public boolean validateStations(Station station) {
+
+    /*    session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        Query query = session.createQuery("from Station where name = :n");
+        query.setParameter(1, station.getName());
+        Station st = (Station) query.uniqueResult();
+        tx.commit();
+        session.close();*/
+
         logger.info("Starting station form validation");
         con = cp.getConnection();
         PreparedStatement st = null;
@@ -50,7 +61,6 @@ public class Validator {
         try {
             ResultSet rs;
             if (!user.getLogin().equals(userUpd.getLogin())) {
-                System.out.println("user " + user.getLogin() + "new" + userUpd.getLogin());
                 st = con.prepareStatement("SELECT * FROM user WHERE login = ?");
                 st.setString(1, userUpd.getLogin());
                 rs = st.executeQuery();
@@ -59,7 +69,6 @@ public class Validator {
                 logger.info("User edit form validation failed: login is taken");
                 return "false";
             } else if (!user.getDetails().getEmail().equals(userUpd.getDetails().getEmail())) {
-                System.out.println("user " + user.getDetails().getEmail() + "new" + userUpd.getDetails().getEmail());
                 st = con.prepareStatement("SELECT * FROM detail WHERE email = ?");
                 st.setString(1, userUpd.getDetails().getEmail());
                 rs = st.executeQuery();
@@ -107,14 +116,12 @@ public class Validator {
         logger.info("Starting user register form validation");
         con = cp.getConnection();
         PreparedStatement st = null;
-        System.out.println(user.getLogin());
         try {
             st = con.prepareStatement("SELECT * FROM detail WHERE email = ?");
             st.setString(1, user.getDetails().getEmail());
             ResultSet rs = st.executeQuery();
             rs.next();
             String temp = rs.getString("email");
-
         } catch (SQLException e) {
             //validation was successful, there is no user with such credentials
             logger.info("User register form validation successfully passed");

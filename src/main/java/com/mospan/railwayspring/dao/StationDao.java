@@ -1,8 +1,7 @@
 package com.mospan.railwayspring.dao;
 
 
-import com.mospan.railwayspring.model.db.Route;
-import com.mospan.railwayspring.model.db.Station;
+import com.mospan.railwayspring.model.db.*;
 import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
@@ -15,7 +14,8 @@ import java.util.List;
 
 public class StationDao implements Dao<Station>{
 
-    Configuration con = new Configuration().configure().addAnnotatedClass(Station.class).addAnnotatedClass(Route.class);
+    Configuration con = new Configuration().configure().addAnnotatedClass(Station.class).addAnnotatedClass(Route.class)
+            .addAnnotatedClass(Trip.class).addAnnotatedClass(Ticket.class).addAnnotatedClass(User.class).addAnnotatedClass(Detail.class);
 
     SessionFactory sf = con.buildSessionFactory();
 
@@ -57,7 +57,7 @@ public class StationDao implements Dao<Station>{
         session = sf.openSession();
         Transaction tx = session.beginTransaction();
         Query query = session.createQuery("from Station where name = :n");
-        query.setParameter(1, name);
+        query.setParameter("n", name);
         Station station = (Station) query.uniqueResult();
         tx.commit();
         session.close();

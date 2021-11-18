@@ -50,7 +50,7 @@ public class TicketController {
             return new RedirectView(req.getHeader("Referer"));
         }
 
-        Collection<Ticket> tickets = (new TicketService().findAllForUser(user.getId()).get(1));
+        Collection<Ticket> tickets = (new TicketService().findAllForUser(user).get(1));
         if (null != tickets) {
             for (Ticket ticket : tickets) {
                 Trip trip = new TripService().findById(Long.parseLong(req.getParameter("trip")));
@@ -86,8 +86,8 @@ public class TicketController {
     @GetMapping("/tickets")
     public String list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("viewing tickets");
-        List<Ticket> upcomingTickets = ((List<Ticket>) new TicketService().findAllForUser(((User)req.getSession().getAttribute("user")).getId()).get(1));
-        List<Ticket> oldTickets = ((List<Ticket>) new TicketService().findAllForUser(((User)req.getSession().getAttribute("user")).getId()).get(1));
+        List<Ticket> upcomingTickets = ((List<Ticket>) new TicketService().findAllForUser(((User)req.getSession().getAttribute("user"))).get(1));
+        List<Ticket> oldTickets = ((List<Ticket>) new TicketService().findAllForUser(((User)req.getSession().getAttribute("user"))).get(1));
 
         req.setAttribute("upcoming_tickets", upcomingTickets);
         req.setAttribute("old_tickets", oldTickets);

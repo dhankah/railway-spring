@@ -130,8 +130,8 @@ public class UserController {
         logger.info("forwarding to user cabinet page");
         long id = ((User)req.getSession().getAttribute("user")).getId();
         req.getSession().setAttribute("user", new UserService().findById(id));
-        List<Ticket> upcomingTickets = new TicketService().findAllForUser(((User)req.getSession().getAttribute("user")).getId()).get(1);
-        List<Ticket> oldTickets = new TicketService().findAllForUser(((User)req.getSession().getAttribute("user")).getId()).get(0);
+        List<Ticket> upcomingTickets = new TicketService().findAllForUser(((User)req.getSession().getAttribute("user"))).get(1);
+        List<Ticket> oldTickets = new TicketService().findAllForUser(((User)req.getSession().getAttribute("user"))).get(0);
 
         req.setAttribute("upcoming_tickets", upcomingTickets);
         req.setAttribute("old_tickets", oldTickets);
@@ -145,9 +145,9 @@ public class UserController {
      */
     //consider taking user from session instead of path
     @PostMapping(value = "cabinet/{id}", params = "_method=delete")
-    public RedirectView delete(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public RedirectView delete(@PathVariable long id, HttpServletRequest req) throws ServletException, IOException {
         User user = new UserService().findById(id);
-        if (null != new TicketService().findAllForUser(user.getId()).get(1)) {
+        if (!new TicketService().findAllForUser(user).get(1).isEmpty()) {
             ResourceBundle rb = ResourceBundle.getBundle("i18n.resources", new Locale((String) req.getSession().getAttribute("defaultLocale")));
 
             logger.info("deleting user " + user.getId() + " failed: user has trips");
@@ -157,12 +157,12 @@ public class UserController {
             return new RedirectView(req.getContextPath() + "/cabinet");
         }
         else {
-            Collection<Ticket> tickets = new TicketService().findAllForUser(user.getId()).get(0);
+            Collection<Ticket> tickets = new TicketService().findAllForUser(user).get(0);
             for (Ticket ticket : tickets) {
                 new TicketService().delete(ticket, false);
             }
         }
-        new UserService().delete((User) user);
+        new UserService().delete(user);
         logger.info("user's profile " + user.getId() + " deleted successfully");
 
         String locale = (String) req.getSession().getAttribute("defaultLocale");
@@ -178,7 +178,7 @@ public class UserController {
      */
     //unused id
     @GetMapping("/cabinet/{id}/change_password")
-    public String changePassword(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public String changePassword() throws ServletException, IOException {
         return "forward:/view/cabinet/change_password.jsp";
     }
 

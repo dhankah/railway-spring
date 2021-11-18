@@ -27,6 +27,7 @@ public class Route{
     @OneToMany(mappedBy = "route")
     private Collection<Trip> trips;
 
+    @Column(name = "depart_time")
     private LocalTime departTime;
     private long time;
 

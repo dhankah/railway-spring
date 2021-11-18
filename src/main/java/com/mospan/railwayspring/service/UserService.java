@@ -12,7 +12,6 @@ public class UserService {
         dao.insert(user);
     }
     public void update(User user) {
-        new DetailService().update(user.getDetails());
         dao.update(user);
     }
     public User find(String login) {
@@ -22,7 +21,6 @@ public class UserService {
         return dao.findById(id);
     }
     public void delete(User user) {
-        new DetailService().delete(user.getDetails());
         dao.delete(user);
     }
     public Collection<User> findAll() {

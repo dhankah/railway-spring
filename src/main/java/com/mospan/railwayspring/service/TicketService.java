@@ -5,6 +5,7 @@ import com.mospan.railwayspring.dao.TicketDao;
 import com.mospan.railwayspring.model.db.Ticket;
 import com.mospan.railwayspring.model.db.Trip;
 import com.mospan.railway.util.EmailSender;
+import com.mospan.railwayspring.model.db.User;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,8 +37,8 @@ public class TicketService {
     public Collection<Integer> findSeats(Trip trip) {
         return dao.findSeats(trip);
     }
-    public List<List<Ticket>> findAllForUser(long id) {
-        return dao.findAllForUser(id);
+    public List<List<Ticket>> findAllForUser(User user) {
+        return dao.findAllForUser(user);
     }
     public Collection<Ticket> findTicketsForTrip(Trip trip) {
         return dao.findTicketsForTrip(trip);

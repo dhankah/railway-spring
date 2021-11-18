@@ -3,7 +3,6 @@ package com.mospan.railwayspring.dao;
 
 
 import com.mospan.railwayspring.model.db.*;
-import com.mospan.railwayspring.service.DetailService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -22,13 +21,13 @@ public class UserDao implements Dao<User>{
     SessionFactory sf = con.buildSessionFactory();
 
     Session session;
-    DetailService detailService = new DetailService();
+
 
     @Override
     public void insert(User user) {
         session = sf.openSession();
         Transaction tx = session.beginTransaction();
-        session.update(user);
+        session.save(user);
         tx.commit();
         session.close();
     }

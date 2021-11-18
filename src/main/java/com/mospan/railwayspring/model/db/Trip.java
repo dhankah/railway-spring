@@ -1,6 +1,7 @@
 package com.mospan.railwayspring.model.db;
 
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -17,10 +18,16 @@ public class Trip {
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "route_id")
     private Route route;
+    @Column(name = "depart_date")
     private LocalDate departDate;
+    @Column(name = "arrival_date")
     private LocalDate arrivalDate;
-    private int availablePlaces = 50;
+
+    @Column(name = "available_places")
+    @ColumnDefault("36")
+    private int availablePlaces;
 
     @OneToMany(mappedBy = "trip")
     private Collection<Ticket> tickets;

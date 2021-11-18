@@ -1,11 +1,12 @@
 package com.mospan.railwayspring.dao;
 
-import com.mospan.railwayspring.model.db.Ticket;
-import com.mospan.railwayspring.model.db.Trip;
-import com.mospan.railwayspring.service.TripService;
-import com.mospan.railwayspring.service.UserService;
+import com.mospan.railwayspring.model.db.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
-import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -13,43 +14,30 @@ import java.util.Collection;
 import java.util.List;
 
 public class TicketDao implements Dao<Ticket>{
-    ConnectionPool cp = ConnectionPool.getInstance();
-    Connection con;
+    Configuration con = new Configuration().configure().addAnnotatedClass(Trip.class)
+            .addAnnotatedClass(Route.class).addAnnotatedClass(Station.class)
+            .addAnnotatedClass(Ticket.class).addAnnotatedClass(User.class).addAnnotatedClass(Detail.class);
+
+    SessionFactory sf = con.buildSessionFactory();
+
+    Session session;
 
     @Override
     public void insert(Ticket ticket) {
-        con = cp.getConnection();
-        PreparedStatement st = null;
-        try {
-            st = con.prepareStatement("INSERT INTO ticket (user_id, trip_id, seat) VALUES (?, ?, ?)");
-            st.setLong(1, ticket.getUser().getId());
-            st.setLong(2, ticket.getTrip().getId());
-            st.setInt(3, ticket.getSeat());
-            st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            cp.closeConnection(con);
-        }
+        session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        session.save(ticket);
+        tx.commit();
+        session.close();
     }
 
     @Override
     public void update(Ticket ticket) {
-        con = cp.getConnection();
-        PreparedStatement st = null;
-        try {
-            st = con.prepareStatement("UPDATE ticket SET (user_id, trip_id, seat) VALUES (?, ?, ?) WHERE id = ?");
-
-            st.setLong(1, ticket.getUser().getId());
-            st.setLong(2, ticket.getTrip().getId());
-            st.setInt(3, ticket.getSeat());
-            st.setLong(4, ticket.getId());
-            st.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            cp.closeConnection(con);
-        }
+        session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        session.update(ticket);
+        tx.commit();
+        session.close();
     }
 
     @Override
@@ -59,175 +47,92 @@ public class TicketDao implements Dao<Ticket>{
 
     @Override
     public Ticket findById(long id) {
-        con = cp.getConnection();
-        Ticket ticket = new Ticket();
-        UserService userService = new UserService();
-        TripService tripService = new TripService();
-        PreparedStatement st = null;
-        try {
-            st = con.prepareStatement("SELECT * FROM ticket WHERE id = ?");
-            st.setLong(1,id);
-
-            ResultSet rs = st.executeQuery();
-            rs.next();
-            ticket.setId(rs.getLong("id"));
-            ticket.setUser(userService.findById(rs.getLong("user_id")));
-            ticket.setTrip(tripService.findById(rs.getLong("trip_id")));
-            ticket.setSeat(rs.getInt("seat"));
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            cp.closeConnection(con);
-        }
+        session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        Ticket ticket = session.find(Ticket.class, id);
+        tx.commit();
+        session.close();
         return ticket;
     }
 
     @Override
     public void delete(Ticket ticket) {
-        con = cp.getConnection();
-
-        try {
-            PreparedStatement st = con.prepareStatement("DELETE FROM ticket WHERE id = ?");
-            st.setLong(1, ticket.getId());
-            st.executeUpdate();
-
-            st = con.prepareStatement("UPDATE trip SET available_places = ? WHERE id = ?");
-            st.setLong(1, ticket.getTrip().getAvailablePlaces() + 1);
-            st.setLong(2, ticket.getTrip().getId());
-            st.executeUpdate();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            cp.closeConnection(con);
-        }
+        session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        session.delete(ticket);
+        tx.commit();
+        session.close();
     }
 
     @Override
     public Collection<Ticket> findAll() {
-        List<Ticket> tickets = new ArrayList<>();
-        con = cp.getConnection();
-
-        try {
-            PreparedStatement st = null;
-            st = con.prepareStatement("SELECT * FROM trip");
-
-            ResultSet rs = st.executeQuery();
-            long id = 1;
-            while (rs.next()) {
-                Ticket ticket = findById(id);
-                tickets.add(ticket);
-                id++;
-                cp.closeConnection(con);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        Query query = session.createQuery("from Ticket");
+        List<Ticket> tickets = query.list();
+        tx.commit();
+        session.close();
         return tickets;
+
     }
 
     public Collection<Integer> findSeats(Trip trip) {
-        List<Integer> seats = new ArrayList<>();
-        con = cp.getConnection();
-        PreparedStatement st = null;
-        try {
-            st = con.prepareStatement("SELECT seat FROM ticket WHERE trip_id = ?");
-            st.setLong(1, trip.getId());
-            ResultSet rs = st.executeQuery();
 
-            while (rs.next()) {
-                seats.add(rs.getInt("seat"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            cp.closeConnection(con);
-        }
+        session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        Query query = session.createQuery("select seat from Ticket where trip = :t");
+        query.setParameter("t", trip);
+        List<Integer> seats = query.list();
+        tx.commit();
+        session.close();
         return seats;
     }
 
 
 
 
-    public List<List<Ticket>> findAllForUser(long id) {
+    public List<List<Ticket>> findAllForUser(User user) {
 
-        con = cp.getConnection();
         List<List<Ticket>> tickets = new ArrayList<>();
-        List<Ticket> upcomingTickets = new ArrayList<>();
+        session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        Query query = session.createQuery("from Ticket where user = :t");
+        query.setParameter("t", user);
+        List<Ticket> temp = query.list();
+
+        tx.commit();
+        session.close();
         List<Ticket> oldTickets = new ArrayList<>();
-        try {
-            PreparedStatement st = null;
-            st = con.prepareStatement("SELECT * FROM ticket WHERE user_id = ?");
-            st.setLong(1, id);
-            ResultSet rs = st.executeQuery();
+        List<Ticket> upcomingTickets = new ArrayList<>();
 
-            while (rs.next()) {
-                Ticket ticket = new Ticket();
-                ticket.setId(rs.getLong("id"));
-                ticket.setUser(new UserService().findById(id));
-                ticket.setSeat(rs.getInt("seat"));
-                ticket.setTrip(new TripService().findById(rs.getLong("trip_id")));
+        for (Ticket ticket : temp) {
+            if (ticket.getTrip().getDepartDate().isBefore(LocalDate.now())) {
 
-                if (ticket.getTrip().getDepartDate().isBefore(LocalDate.now())) {
+                oldTickets.add(ticket);
+            } else if (ticket.getTrip().getDepartDate().isAfter(LocalDate.now())) {
 
-                    oldTickets.add(ticket);
-                } else if (ticket.getTrip().getDepartDate().isAfter(LocalDate.now())) {
+                upcomingTickets.add(ticket);
+            } else if (ticket.getTrip().getRoute().getDepartTime().isBefore(LocalTime.now())) {
 
-                    upcomingTickets.add(ticket);
-                } else if (ticket.getTrip().getRoute().getDepartTime().isBefore(LocalTime.now())) {
-
-                    oldTickets.add(ticket);
-                } else {
-                    upcomingTickets.add(ticket);
-                }
+                oldTickets.add(ticket);
+            } else {
+                upcomingTickets.add(ticket);
             }
-            tickets.add(oldTickets);
-            tickets.add(upcomingTickets);
-
-            if (tickets.get(1).isEmpty()) {
-                tickets.set(1, null);
-            }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            cp.closeConnection(con);
         }
+        tickets.add(oldTickets);
+        tickets.add(upcomingTickets);
+
         return tickets;
     }
 
     public Collection<Ticket> findTicketsForTrip(Trip trip) {
-        con = cp.getConnection();
-        List<Ticket> tickets = new ArrayList<>();
-        try {
-            PreparedStatement st = null;
-            st = con.prepareStatement("SELECT * FROM ticket WHERE trip_id = ?");
-            st.setLong(1, trip.getId());
-            ResultSet rs = st.executeQuery();
 
-            while (rs.next()) {
-                Ticket ticket = new Ticket();
-                ticket.setId(rs.getLong("id"));
-                ticket.setUser(new UserService().findById(rs.getLong("user_id")));
-                ticket.setSeat(rs.getInt("seat"));
-                ticket.setTrip(new TripService().findById(rs.getLong("trip_id")));
+        session = sf.openSession();
+        Transaction tx = session.beginTransaction();
+        Query query = session.createQuery("from Ticket where trip = :t");
+        query.setParameter("t", trip);
+        List<Ticket> tickets = query.list();
 
-                tickets.add(ticket);
-
-            }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            cp.closeConnection(con);
-        }
         return tickets;
     }
 }

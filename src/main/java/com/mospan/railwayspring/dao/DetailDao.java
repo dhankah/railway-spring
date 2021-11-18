@@ -21,7 +21,7 @@ public class DetailDao implements Dao<Detail> {
     public void insert(Detail detail) {
         session = sf.openSession();
         Transaction tx = session.beginTransaction();
-        session.update(detail);
+        session.save(detail);
         tx.commit();
         session.close();
     }

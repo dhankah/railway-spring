@@ -16,11 +16,12 @@ public class Ticket {
     private long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
     @ManyToOne
+    @JoinColumn(name = "trip_id")
     private Trip trip;
 
-    @Transient
     private int seat;
 
     public User getUser() {

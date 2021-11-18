@@ -48,7 +48,7 @@ public class ConnectionPool {
     private void createPool() throws Exception {
         cpds = new ComboPooledDataSource();
         cpds.setDriverClass("com.mysql.jdbc.Driver");
-        cpds.setJdbcUrl("jdbc:mysql://localhost:3306/railway?useUnicode=true&characterEncoding=utf8");
+        cpds.setJdbcUrl("jdbc:mysql://localhost:3306/railway-spring?useUnicode=true&characterEncoding=utf8");
         cpds.setUser("root");
         cpds.setPassword("root");
         cpds.setMaxStatements(180);

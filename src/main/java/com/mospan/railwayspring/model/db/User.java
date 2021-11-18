@@ -1,5 +1,6 @@
 package com.mospan.railwayspring.model.db;
 
+import com.mospan.railwayspring.model.Role;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -18,7 +19,7 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "detail_id")
     private Detail details;
     private String login;
