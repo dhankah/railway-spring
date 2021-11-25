@@ -24,11 +24,8 @@ import java.util.ResourceBundle;
 public class StationController {
 
 
-
     private static final Logger logger = Logger.getLogger(StationController.class);
     static Validator validator = new Validator();
-
-
 
     /**
      * PUT /stations/{id}

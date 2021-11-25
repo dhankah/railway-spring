@@ -45,7 +45,6 @@ public class DetailDao implements Dao<Detail> {
         tx.commit();
         session.close();
         return detail;
-
     }
 
     @Override

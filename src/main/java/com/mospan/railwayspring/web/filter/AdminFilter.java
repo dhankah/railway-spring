@@ -1,3 +1,4 @@
+/*
 package com.mospan.railwayspring.web.filter;
 
 import com.mospan.railwayspring.model.db.User;
@@ -21,3 +22,4 @@ public class AdminFilter implements Filter {
         }
     }
 }
+*/

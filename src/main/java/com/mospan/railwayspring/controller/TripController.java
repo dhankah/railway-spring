@@ -73,7 +73,6 @@ public class TripController {
     /**
      * Displays a page with the route info
      */
-    //there may be logical errors
     @GetMapping("/trips/{id}/route_info")
     public String routeInfo(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Route route = new TripService().findById(id).getRoute();

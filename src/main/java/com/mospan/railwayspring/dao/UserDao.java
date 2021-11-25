@@ -9,9 +9,11 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.hibernate.query.NativeQuery;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
+@Component
 public class UserDao implements Dao<User>{
 
     Configuration con = new Configuration().configure().addAnnotatedClass(User.class).addAnnotatedClass(Detail.class)

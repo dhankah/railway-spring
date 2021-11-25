@@ -49,6 +49,23 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dataSources" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/0/7" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/0/e" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/1/d" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/1/e" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/2/8" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/3/4" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/6/e" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/7/3" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/7/4" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/7/b" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/8/d" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/a/4" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/a/a" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/b/0" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/c/d" />
+      <excludeFolder url="file://$MODULE_DIR$/.idea/sonarlint/issuestore/f/0" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -104,7 +121,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.12" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.12" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.12" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.12" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.12" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.13.2" level="project" />
@@ -165,5 +181,11 @@
     <orderEntry type="library" name="Maven: javax.mail:javax.mail-api:1.6.2" level="project" />
     <orderEntry type="library" name="Maven: com.sun.mail:javax.mail:1.6.2" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:2.5.6" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.12" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:5.5.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:5.5.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-crypto:5.5.3" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:5.5.3" level="project" />
   </component>
 </module>

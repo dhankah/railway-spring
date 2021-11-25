@@ -12,7 +12,7 @@
                             <h6 class="mb-0"><fmt:message key="current_balance"/>: ${sessionScope.user.balance}</h6>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                            <input type="number" class="form-control" name="amount_to_add" min="1">
+                            <input type="number" class="form-control" name="amount_to_add" min="1" max = "">
                         </div>
                     </div>
                     <div class="row">

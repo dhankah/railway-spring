@@ -9,6 +9,8 @@ import com.mospan.railwayspring.service.UserService;
 import com.mospan.railwayspring.util.PasswordEncryptor;
 import com.mospan.railwayspring.util.validator.Validator;
 import org.apache.log4j.Logger;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

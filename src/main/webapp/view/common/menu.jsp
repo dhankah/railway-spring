@@ -24,7 +24,7 @@
             <c:choose>
                 <c:when test="${not empty sessionScope.user}">
                     <a href="${pageContext.request.contextPath}/cabinet" class="btn btn-primary mx-2 custom" role="button" ><fmt:message key="cabinet"/></a>
-                    <form method="post" action="${pageContext.request.contextPath}/auth/logout" class="m-0">
+                    <form method="post" action="${pageContext.request.contextPath}/logout" class="m-0">
                         <button type="submit" class="btn btn-primary custom"><fmt:message key="logout"/></button>
                     </form>
                 </c:when>

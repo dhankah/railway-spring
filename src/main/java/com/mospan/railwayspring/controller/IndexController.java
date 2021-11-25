@@ -3,37 +3,56 @@ package com.mospan.railwayspring.controller;
 
 import com.mospan.railwayspring.model.db.User;
 
+import com.mospan.railwayspring.service.UserService;
 import org.apache.log4j.Logger;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//it may have a mapping, and it will
-public class IndexController extends HttpServlet {
+@Controller
+public class IndexController  {
     private static final Logger logger = Logger.getLogger(IndexController.class);
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+    @GetMapping("/index")
+    public RedirectView doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        logger.info("index controller is called");
         //functional for recurrent creating of trips
-      /*  Timer timer = new Timer();
+      /*Timer timer = new Timer();
         Task task = new Task();
         timer.schedule(task, 0,86400000);*/
-
-        if (req.getSession().getAttribute("defaultLocale") == null) {
-            req.getSession().setAttribute("defaultLocale", "ua");
-        }
-        User user = (User) req.getSession().getAttribute("user");
-
-
-        if (user != null && user.isAdmin()){
-            logger.info("redirecting to the trips page");
-            resp.sendRedirect(req.getContextPath() + "/stations/1/page");
+        String username;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            username = authentication.getName();
+            long id = new UserService().find(username).getId();
+            req.getSession().setAttribute("user", new UserService().findById(id));
+            User user = (User) req.getSession().getAttribute("user");
+            if (user != null && user.isAdmin()){
+                logger.info("redirecting to the stations page");
+                return new RedirectView(req.getContextPath() + "/stations/1/page");
+            } else {
+                logger.info("redirecting to the trips page");
+                return new RedirectView(req.getContextPath() + "/trips");
+            }
         } else {
             logger.info("redirecting to the trips page");
-            resp.sendRedirect(req.getContextPath() + "/trips");
+            return new RedirectView(req.getContextPath() + "/trips");
         }
+    }
+
+    @GetMapping("/forbidden")
+    public String error() {
+        return "forward:/view/error/forbidden.jsp";
+    }
+
+    @GetMapping("/not_found")
+    public String error404() {
+        return "forward:/view/error/notfound.jsp";
     }
 }

@@ -2,11 +2,13 @@ package com.mospan.railwayspring.model.db;
 
 import com.mospan.railwayspring.model.Role;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Collection;
 
+@Component
 @Entity
 @Table(name = "user")
 public class User implements Serializable {

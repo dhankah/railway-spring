@@ -35,4 +35,14 @@
         <servlet-name>default</servlet-name>
         <url-pattern>*.js</url-pattern>
     </servlet-mapping>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/forbidden</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/not_found</location>
+    </error-page>
 </web-app>

@@ -20,8 +20,7 @@ public class LoginCommand {
 
         ResourceBundle rb = ResourceBundle.getBundle("i18n.resources", new Locale((String) request.getSession().getAttribute("defaultLocale")));
 
-
-        String login = request.getParameter("login");
+        String login = request.getParameter("username");
         String password = PasswordEncryptor.hashPassword(request.getParameter("password"));
 
         UserService userService = new UserService();
@@ -33,7 +32,7 @@ public class LoginCommand {
 
             request.getSession().setAttribute("errorMessage", rb.getString("wrong_login_password"));
 
-            return new RedirectView(request.getContextPath() + "//auth/login");
+            return new RedirectView(request.getContextPath() + "/auth/login");
 
         } else {
             logger.info("logging in success for user " + user.getLogin());
