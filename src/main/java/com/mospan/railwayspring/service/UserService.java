@@ -1,12 +1,15 @@
 package com.mospan.railwayspring.service;
 
-import com.mospan.railwayspring.dao.UserDao;
+import com.mospan.railwayspring.dao.implementation.UserDaoImpl;
+import com.mospan.railwayspring.dao.interfaces.UserDao;
 import com.mospan.railwayspring.model.db.User;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class UserService {
-    UserDao dao = new UserDao();
+    UserDao dao = new UserDaoImpl();
 
     public void insert(User user) {
         dao.insert(user);
@@ -22,9 +25,6 @@ public class UserService {
     }
     public void delete(User user) {
         dao.delete(user);
-    }
-    public Collection<User> findAll() {
-        return dao.findAll();
     }
     public String getEmailSenderData() {
         return dao.getEmailSenderData();

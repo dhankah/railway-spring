@@ -1,13 +1,12 @@
 package com.mospan.railwayspring.service;
 
-import com.mospan.railwayspring.dao.Dao;
-import com.mospan.railwayspring.dao.DetailDao;
+import com.mospan.railwayspring.dao.implementation.DetailDaoImpl;
+import com.mospan.railwayspring.dao.interfaces.DetailDao;
 import com.mospan.railwayspring.model.db.Detail;
 
-import java.util.Collection;
 
 public class DetailService {
-    Dao<Detail> dao = new DetailDao();
+    DetailDao dao = new DetailDaoImpl();
 
     public void insert(Detail detail) {
         dao.insert(detail);
@@ -23,8 +22,5 @@ public class DetailService {
     }
     public void delete(Detail detail) {
         dao.delete(detail);
-    }
-    public Collection<Detail> findAll() {
-        return dao.findAll();
     }
 }

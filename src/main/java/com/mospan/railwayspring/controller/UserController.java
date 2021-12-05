@@ -9,6 +9,8 @@ import com.mospan.railwayspring.service.UserService;
 import com.mospan.railwayspring.util.PasswordEncryptor;
 import com.mospan.railwayspring.util.validator.Validator;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,10 +30,17 @@ import java.util.ResourceBundle;
 
 
 @Controller
+@ComponentScan("com.mospan.railwayspring.util.validator")
 public class UserController {
     private static final Logger logger = Logger.getLogger(UserController.class);
-    static Validator validator = new Validator();
+    @Autowired
+    Validator validator;
 
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    TicketService ticketService;
 
     /**
      * PUT /cabinet/{id}
@@ -40,7 +49,7 @@ public class UserController {
     @PostMapping("/cabinet/{id}")
     public RedirectView update(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        User user = new UserService().findById(id);
+        User user = userService.findById(id);
         ResourceBundle rb = ResourceBundle.getBundle("i18n.resources", new Locale((String) req.getSession().getAttribute("defaultLocale")));
 
         req.setCharacterEncoding("UTF-8");
@@ -48,14 +57,14 @@ public class UserController {
         //update password
         if (null != req.getParameter("password")) {
             logger.info("updating password for user " + user.getId());
-            if (PasswordEncryptor.hashPassword(req.getParameter("old_password")).equals(new UserService().find((user).getLogin()).getPassword())
+            if (PasswordEncryptor.hashPassword(req.getParameter("old_password")).equals(userService.find((user).getLogin()).getPassword())
                     && req.getParameter("password").equals(req.getParameter("re_password"))) {
                 (user).setPassword(PasswordEncryptor.hashPassword(req.getParameter("password")));
-                new UserService().update(user);
+                userService.update(user);
                 logger.info("password for user " + user.getId() + " updated successfully");
                 req.getSession().setAttribute("message", rb.getString("password_updated"));
 
-            } else if (!req.getParameter("old_password").equals(new UserService().find((user).getLogin()).getPassword())) {
+            } else if (!req.getParameter("old_password").equals(userService.find((user).getLogin()).getPassword())) {
                 logger.info("password update for user " + user.getId() + " failed: wrong old password");
 
                 req.getSession().setAttribute("errorMessage", rb.getString("wrong_old_pass"));
@@ -78,7 +87,8 @@ public class UserController {
         logger.info("updating user " + user.getId() + " info");
         User userUpd = new User();
         userUpd.setId(user.getId());
-        userUpd.setPassword((user).getPassword());
+        userUpd.setPassword(user.getPassword());
+        userUpd.setBalance(user.getBalance());
         userUpd.setLogin(req.getParameter("login"));
         userUpd.setRole(((User)req.getSession().getAttribute("user")).getRole());
         Detail detailUpd = new Detail();
@@ -105,7 +115,7 @@ public class UserController {
 
         req.getSession().setAttribute("message", rb.getString("profile_updated"));
 
-        new UserService().update(userUpd);
+        userService.update(userUpd);
         logger.info("info for user " + user.getId() + " updated successfully");
         return new RedirectView(req.getContextPath() + "/cabinet");
     }
@@ -130,8 +140,13 @@ public class UserController {
     @GetMapping("/cabinet")
     public String list(HttpServletRequest req) {
         logger.info("forwarding to user cabinet page");
+
+        if (req.getSession().getAttribute("defaultLocale") == null) {
+            req.getSession().setAttribute("defaultLocale", "ua");
+        }
+
         long id = ((User)req.getSession().getAttribute("user")).getId();
-        req.getSession().setAttribute("user", new UserService().findById(id));
+        req.getSession().setAttribute("user", userService.findById(id));
         List<Ticket> upcomingTickets = new TicketService().findAllForUser(((User)req.getSession().getAttribute("user"))).get(1);
         List<Ticket> oldTickets = new TicketService().findAllForUser(((User)req.getSession().getAttribute("user"))).get(0);
 
@@ -148,7 +163,7 @@ public class UserController {
     //consider taking user from session instead of path
     @PostMapping(value = "cabinet/{id}", params = "_method=delete")
     public RedirectView delete(@PathVariable long id, HttpServletRequest req) throws ServletException, IOException {
-        User user = new UserService().findById(id);
+        User user = userService.findById(id);
         if (!new TicketService().findAllForUser(user).get(1).isEmpty()) {
             ResourceBundle rb = ResourceBundle.getBundle("i18n.resources", new Locale((String) req.getSession().getAttribute("defaultLocale")));
 
@@ -161,10 +176,10 @@ public class UserController {
         else {
             Collection<Ticket> tickets = new TicketService().findAllForUser(user).get(0);
             for (Ticket ticket : tickets) {
-                new TicketService().delete(ticket, false);
+                ticketService.delete(ticket, false);
             }
         }
-        new UserService().delete(user);
+        userService.delete(user);
         logger.info("user's profile " + user.getId() + " deleted successfully");
 
         String locale = (String) req.getSession().getAttribute("defaultLocale");
@@ -178,7 +193,6 @@ public class UserController {
      * GET /cabinet/{id}/change_password
      * Displays password change form for the user
      */
-    //unused id
     @GetMapping("/cabinet/{id}/change_password")
     public String changePassword() throws ServletException, IOException {
         return "forward:/view/cabinet/change_password.jsp";

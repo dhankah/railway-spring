@@ -10,8 +10,8 @@ import java.io.Serializable;
 public class Detail implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="native")
+    @GenericGenerator(name = "native", strategy = "native")
     private long id;
 
     @Column(name = "first_name")

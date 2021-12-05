@@ -1,4 +1,4 @@
-package com.mospan.railway.util;
+package com.mospan.railwayspring.util;
 
 import com.mospan.railwayspring.model.db.Ticket;
 
@@ -25,7 +25,7 @@ public class EmailSender {
     public static void sendTicketNotification(Ticket ticket, String reason) {
         logger.info("Sending an email");
         String recipient = ticket.getUser().getDetails().getEmail();
-        String sender = "railway.service@outlook.com";
+        String sender = "railway.service@hotmail.com";
         String host = "smtp.outlook.com";
 
         Properties properties = System.getProperties();
@@ -36,7 +36,7 @@ public class EmailSender {
         Session session = Session.getDefaultInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("railway.service@outlook.com", new UserService().getEmailSenderData());
+                return new PasswordAuthentication("railway.service@hotmail.com", new UserService().getEmailSenderData());
             }
         });
         try {
@@ -46,10 +46,10 @@ public class EmailSender {
 
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
-            if (reason.equals("cancel_trip")) {
+            if (reason.equals("trip_cancel")) {
                 message.setSubject(tripCancelMessage(ticket)[0]);
                 message.setText(tripCancelMessage(ticket)[1]);
-            } else if (reason.equals("return_ticket")) {
+            } else if (reason.equals("ticket_return")) {
                 message.setSubject(ticketReturnMessage(ticket)[0]);
                 message.setText(ticketReturnMessage(ticket)[1]);
             }

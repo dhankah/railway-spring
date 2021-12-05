@@ -8,6 +8,7 @@ import com.mospan.railwayspring.service.StationService;
 import com.mospan.railwayspring.service.TicketService;
 import com.mospan.railwayspring.service.TripService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,19 @@ import java.util.*;
 public class TripController {
     private static final Logger logger = Logger.getLogger(TripController.class);
 
+
+    @Autowired
+    TripService tripService;
+
+    @Autowired
+    RouteService routeService;
+
+    @Autowired
+    StationService stationService;
+
+    @Autowired
+    TicketService ticketService;
+
     /**
      * GET /trips
      * Displays a page for trips search
@@ -36,7 +50,6 @@ public class TripController {
         if (req.getSession().getAttribute("defaultLocale") == null) {
             req.getSession().setAttribute("defaultLocale", "en");
         }
-        ResourceBundle rb = ResourceBundle.getBundle("i18n.resources", new Locale((String) req.getSession().getAttribute("defaultLocale")));
 
         req.getSession().setAttribute("date", LocalDate.now());
         req.setAttribute("stations", new StationService().findAll());
@@ -52,9 +65,8 @@ public class TripController {
     @GetMapping("/trips/{id}/choose")
     public String choose(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("viewing page for seat selection");
-        Trip trip = new TripService().findById(id);
+        Trip trip = tripService.findById(id);
         List<Seat> seats = new ArrayList<>();
-        TicketService ticketService = new TicketService();
         Collection<Integer> occupied = ticketService.findSeats(trip);
 
         for (int i = 1; i < 37; i++) {
@@ -75,8 +87,8 @@ public class TripController {
      */
     @GetMapping("/trips/{id}/route_info")
     public String routeInfo(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Route route = new TripService().findById(id).getRoute();
-        logger.info("viewing info about route " +route.getId());
+        Route route = tripService.findById(id).getRoute();
+        logger.info("viewing info about route " + route.getId());
         req.setAttribute("route", route);
         return "forward:/view/routes/route_info.jsp";
     }
@@ -136,8 +148,8 @@ public class TripController {
         }
 
         req.getSession().setAttribute("date", req.getParameter("depart_date"));
-        req.getSession().setAttribute("depart_station", (new StationService().find(req.getParameter("depart_station"))).getId());
-        req.getSession().setAttribute("arrival_station", (new StationService().find(req.getParameter("arrival_station"))).getId());
+        req.getSession().setAttribute("depart_station", (stationService.find(req.getParameter("depart_station"))).getId());
+        req.getSession().setAttribute("arrival_station", (stationService.find(req.getParameter("arrival_station"))).getId());
 
 
         req.setAttribute("trips", trips);

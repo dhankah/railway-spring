@@ -1,13 +1,17 @@
 package com.mospan.railwayspring.service;
 
-import com.mospan.railwayspring.dao.StationDao;
+import com.mospan.railwayspring.dao.implementation.StationDaoImpl;
+import com.mospan.railwayspring.dao.interfaces.StationDao;
 import com.mospan.railwayspring.model.db.Route;
 import com.mospan.railwayspring.model.db.Station;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class StationService {
-    StationDao dao = new StationDao();
+
+    StationDao dao = new StationDaoImpl();
 
     public void insert(Station station) {
         dao.insert(station);

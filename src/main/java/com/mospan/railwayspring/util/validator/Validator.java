@@ -8,9 +8,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class Validator {
+
 
     private static final Logger logger = Logger.getLogger(Validator.class);
     Configuration con = new Configuration().configure().addAnnotatedClass(Trip.class)
@@ -22,6 +24,7 @@ public class Validator {
     Session session;
 
     public boolean validateStations(Station station) {
+        logger.info("Starting station form validation");
 
         session = sf.openSession();
         Transaction tx = session.beginTransaction();

@@ -2,6 +2,7 @@ package com.mospan.railwayspring.controller;
 import com.mospan.railwayspring.model.db.User;
 import com.mospan.railwayspring.service.UserService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class TopUpController {
+
+    @Autowired
+    UserService userService;
 
     private static final Logger logger = Logger.getLogger(TopUpController.class);
     /**
@@ -33,7 +37,7 @@ public class TopUpController {
         logger.info("topping balance up for user " + req.getSession().getAttribute("user"));
         User user = (User) req.getSession().getAttribute("user");
         user.setBalance(user.getBalance() + Double.parseDouble(req.getParameter("amount_to_add")));
-        new UserService().update(user);
-       return new RedirectView(req.getContextPath() + "/cabinet");
+        userService.update(user);
+        return new RedirectView(req.getContextPath() + "/cabinet");
     }
 }

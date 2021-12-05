@@ -1,7 +1,6 @@
 package com.mospan.railwayspring.service.sec;
 
-import com.mospan.railwayspring.controller.LanguageController;
-import com.mospan.railwayspring.dao.UserDao;
+import com.mospan.railwayspring.dao.implementation.UserDaoImpl;
 import com.mospan.railwayspring.model.db.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private UserDao dao;
+    private UserDaoImpl dao;
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {

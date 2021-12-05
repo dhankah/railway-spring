@@ -1,11 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Dana
-  Date: 03.10.2021
-  Time: 19:00
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ taglib prefix="z" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -29,8 +23,10 @@
             </c:forEach></t>
     </ul>
 </z:layout>
-<c:if test="${not empty requestScope.pages}">
-<%for ( int pageNum = 1; pageNum <= (Integer)request.getAttribute("pages"); pageNum++){ %>
-<a href="${pageContext.request.contextPath}/stations/<%=pageNum%>/page" class="btn btn-light m-3"><%=pageNum%></a>
-<%}%>
-</c:if>
+<div class="m-3">
+    <c:if test="${not empty requestScope.pages}">
+    <%for ( int pageNum = 1; pageNum <= (Integer)request.getAttribute("pages"); pageNum++){ %>
+    <a href="${pageContext.request.contextPath}/stations/<%=pageNum%>/page" class="btn btn-light"><%=pageNum%></a>
+    <%}%>
+    </c:if>
+</div>

@@ -1,15 +1,9 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Dana
-  Date: 06.10.2021
-  Time: 22:24
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="z" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
+<jsp:include page="../js/select.jsp"/>
 <z:layout pageTitle="Routes">
     <form name="edit" method="post" action="${pageContext.request.contextPath}/routes" onsubmit="return validateRouteForm()">
         <div class="mb-3 m-3">
@@ -49,8 +43,10 @@
             </c:forEach></td>
     </ul>
 </z:layout>
-<c:if test="${not empty requestScope.pages}">
-<%for ( int pageNum = 1; pageNum <= (Integer)request.getAttribute("pages"); pageNum++){ %>
-<a href="${pageContext.request.contextPath}/routes/<%=pageNum%>/page" class="btn btn-light m-3"><%=pageNum%></a>
-<%}%>
-</c:if>
+<div class="m-3">
+    <c:if test="${not empty requestScope.pages}">
+        <%for ( int pageNum = 1; pageNum <= (Integer)request.getAttribute("pages"); pageNum++){ %>
+        <a href="${pageContext.request.contextPath}/stations/<%=pageNum%>/page" class="btn btn-light"><%=pageNum%></a>
+        <%}%>
+    </c:if>
+</div>

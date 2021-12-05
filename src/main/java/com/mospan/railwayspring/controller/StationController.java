@@ -6,6 +6,8 @@ import com.mospan.railwayspring.service.StationService;
 import com.mospan.railwayspring.util.validator.Validator;
 import org.apache.log4j.Logger;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +23,16 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 @Controller
+@ComponentScan
 public class StationController {
 
 
     private static final Logger logger = Logger.getLogger(StationController.class);
-    static Validator validator = new Validator();
+    @Autowired
+    Validator validator;
+
+    @Autowired
+    StationService stationService;
 
     /**
      * PUT /stations/{id}
@@ -35,12 +42,12 @@ public class StationController {
     public RedirectView update(@PathVariable long id, HttpServletRequest req) throws ServletException, IOException {
         logger.info("updating station " + id);
         req.setCharacterEncoding("UTF-8");
-        Station station = new StationService().findById(id);
+        Station station = stationService.findById(id);
         station.setName(req.getParameter("name"));
 
         if (validator.validateStations(station)) {
             logger.info("updated station " + station.getId() + " successfully");
-            new StationService().update(station);
+            stationService.update(station);
             return new RedirectView(req.getContextPath() + "/stations/1/page");
         }
 
@@ -59,7 +66,7 @@ public class StationController {
     @GetMapping("/stations/{id}/edit")
     public String edit(@PathVariable long id, HttpServletRequest req) throws ServletException, IOException {
         logger.info("forwarding to station edit page");
-        Station station = new StationService().findById(id);
+        Station station = stationService.findById(id);
         req.setCharacterEncoding("UTF-8");
         req.setAttribute("station", station);
         return "forward:/view/stations/edit.jsp";
@@ -77,7 +84,7 @@ public class StationController {
         station.setName(req.getParameter("name"));
         if (validator.validateStations(station)) {
             logger.info("station " + station.getName() + " saved successfully");
-            new StationService().insert(station);
+            stationService.insert(station);
             return new RedirectView(req.getContextPath() + "/stations/1/page");
         }
         ResourceBundle rb = ResourceBundle.getBundle("i18n.resources", new Locale((String) req.getSession().getAttribute("defaultLocale")));
@@ -104,9 +111,9 @@ public class StationController {
      */
     @PostMapping(value = "stations/{id}", params = "_method=delete")
     public RedirectView delete(@PathVariable long id, HttpServletRequest req) throws ServletException, IOException {
-        Station station = new StationService().findById(id);
+        Station station = stationService.findById(id);
         logger.info("deleting station " + station.getName());
-        new StationService().delete(station);
+        stationService.delete(station);
         return new RedirectView(req.getContextPath() + "/stations/1/page");
     }
 
@@ -121,10 +128,10 @@ public class StationController {
         req.setAttribute("stations", stationsForList);
 
         int size = new StationService().findAll().size();
-        int pages = size % 10 == 0 ? size / 10 : size / 10 + 1;
+        int pages = size % 5 == 0 ? size / 5 : size / 5 + 1;
         req.setAttribute("pages", pages);
 
-        List<Station> stations = (List<Station>) new StationService().findRecords(id);
+        List<Station> stations = (List<Station>) stationService.findRecords(id);
         req.setAttribute("stations", stations);
         return "forward:/view/stations/list.jsp";
     }

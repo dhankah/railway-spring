@@ -1,26 +1,26 @@
 package com.mospan.railwayspring.service;
 
 
-import com.mospan.railwayspring.dao.TicketDao;
+import com.mospan.railwayspring.dao.implementation.TicketDaoImpl;
+import com.mospan.railwayspring.dao.interfaces.TicketDao;
 import com.mospan.railwayspring.model.db.Ticket;
 import com.mospan.railwayspring.model.db.Trip;
-import com.mospan.railway.util.EmailSender;
+import com.mospan.railwayspring.util.EmailSender;
 import com.mospan.railwayspring.model.db.User;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
 
+@Service
 public class TicketService {
-    TicketDao dao = new TicketDao();
+    TicketDao dao = new TicketDaoImpl();
 
     public void insert(Ticket ticket) {
         dao.insert(ticket);
     }
     public void update(Ticket ticket) {
         dao.update(ticket);
-    }
-    public Ticket find(String param) {
-        return dao.find(param);
     }
     public Ticket findById(long id) {
         return dao.findById(id);

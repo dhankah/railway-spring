@@ -66,7 +66,7 @@
         </div>
     </div>
     <c:if test="${not empty requestScope.upcoming_tickets}">
-        <h4>Upcoming tickets</h4>
+        <h4 class="m-3"><fmt:message key="upcoming_tickets"/></h4>
         <div class="card-group">
             <c:forEach items="${requestScope.upcoming_tickets}" var="ticket">
                 <div class="card" style="width: 18rem;">
@@ -89,7 +89,7 @@
         </div>
     </c:if>
     <c:if test="${not empty requestScope.old_tickets}">
-        <h4>Old tickets</h4>
+        <h4 class="m-3"><fmt:message key="old_tickets"/></h4>
         <div class="card-group">
             <c:forEach items="${requestScope.old_tickets}" var="ticket">
                 <div class="card" style="width: 18rem;">

@@ -2,7 +2,6 @@ package com.mospan.railwayspring.service.sec;
 
 import com.mospan.railwayspring.model.Role;
 import com.mospan.railwayspring.model.db.User;
-import edu.emory.mathcs.backport.java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Collections;
 
 @Component
 @ComponentScan("com.mospan.railwayspring.model.db")

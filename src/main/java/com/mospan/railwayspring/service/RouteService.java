@@ -1,25 +1,24 @@
 package com.mospan.railwayspring.service;
 
+import com.mospan.railwayspring.dao.implementation.RouteDaoImpl;
 
-import com.mospan.railwayspring.dao.RouteDao;
-
+import com.mospan.railwayspring.dao.interfaces.RouteDao;
 import com.mospan.railwayspring.model.db.Route;
 import com.mospan.railwayspring.model.db.Station;
 import com.mospan.railwayspring.model.db.Trip;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+@Service
 public class RouteService {
-    RouteDao dao = new RouteDao();
+    RouteDao dao = new RouteDaoImpl();
 
     public void insert(Route route) {
         dao.insert(route);
     }
     public void update(Route route) {
         dao.update(route);
-    }
-    public Route find(String name) {
-        return dao.find(name);
     }
     public Route findById(long id) {
         return dao.findById(id);
