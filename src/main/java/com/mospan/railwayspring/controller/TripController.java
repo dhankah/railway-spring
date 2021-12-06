@@ -97,7 +97,6 @@ public class TripController {
      * GET /trips/{id}/page
      * Displays list of trips for the user's request
      */
-    //should deal with absence of id here
     @GetMapping("/trips/{id}/page")
     public String goToPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("forwarding to page " + " of trips");
@@ -116,7 +115,7 @@ public class TripController {
 
         if (!routes.isEmpty()) {
             for (Route route : routes) {
-                logger.info("will look for records now. with route " + route + " date " + req.getParameter("depart_date"));
+
                 Collection<Trip> tripsForRoute = new TripService().findRecords(route, LocalDate.parse(req.getParameter("depart_date")));
                 if (tripsForRoute != null) {
                     for (Trip trip : tripsForRoute) {

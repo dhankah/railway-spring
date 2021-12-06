@@ -95,7 +95,6 @@ public class TripDaoImpl implements TripDao {
         query.setParameter("dt", date);
         List<Trip> trips = query.list();
         tx.commit();
-        System.out.println(trips.size());
         session.close();
         return trips;
     }

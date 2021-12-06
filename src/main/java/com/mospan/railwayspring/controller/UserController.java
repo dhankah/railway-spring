@@ -11,8 +11,7 @@ import com.mospan.railwayspring.util.validator.Validator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -124,7 +123,6 @@ public class UserController {
      * GET /cabinet/{id}/edit
      * Displays edit form for the user
      */
-    //do sth with unused id
     @GetMapping("/cabinet/{id}/edit")
     public String edit(HttpServletRequest req) throws IOException {
         logger.info("forwarding to user edit page");

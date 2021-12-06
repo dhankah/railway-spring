@@ -2,7 +2,6 @@ package com.mospan.railwayspring.dao.interfaces;
 
 import com.mospan.railwayspring.model.db.Detail;
 
-import java.util.Collection;
 
 public interface DetailDao {
     void insert(Detail detail);

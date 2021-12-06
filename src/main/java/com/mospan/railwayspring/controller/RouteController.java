@@ -42,7 +42,6 @@ public class RouteController {
     public RedirectView update(@PathVariable long id, HttpServletRequest req) {
         Route route = routeService.findById(id);
         logger.info("updating route " + route.getId());
-        System.out.println("no use, i am here(");
         route.setDepartTime(LocalTime.parse(req.getParameter("depart_time")));
         route.setTime(convertTime(req));
         route.setStartStation(stationService.find(req.getParameter("start_station")));

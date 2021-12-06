@@ -3,7 +3,7 @@ package com.mospan.railwayspring.controller;
 import com.mospan.railwayspring.model.db.Ticket;
 import com.mospan.railwayspring.model.db.Trip;
 import com.mospan.railwayspring.model.db.User;
-import com.mospan.railwayspring.service.StationService;
+
 import com.mospan.railwayspring.service.TicketService;
 import com.mospan.railwayspring.service.TripService;
 import com.mospan.railwayspring.service.UserService;
@@ -112,7 +112,7 @@ public class TicketController {
      * Removes a specified ticket from db
      */
     @PostMapping(value = "tickets/{id}", params = "_method=delete")
-    protected RedirectView delete(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public RedirectView delete(@PathVariable long id, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Ticket ticket = ticketService.findById(id);
         logger.info("deleting ticket " + ticket.getId());
 

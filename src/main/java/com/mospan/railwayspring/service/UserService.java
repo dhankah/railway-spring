@@ -5,8 +5,6 @@ import com.mospan.railwayspring.dao.interfaces.UserDao;
 import com.mospan.railwayspring.model.db.User;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-
 @Service
 public class UserService {
     UserDao dao = new UserDaoImpl();
