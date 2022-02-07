@@ -12,7 +12,8 @@ import java.util.Collection;
 
 @Service
 public class RouteService {
-    RouteDao dao = new RouteDaoImpl();
+
+    public RouteDao dao = new RouteDaoImpl();
 
     public void insert(Route route) {
         dao.insert(route);

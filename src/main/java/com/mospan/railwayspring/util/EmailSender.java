@@ -24,7 +24,7 @@ public class EmailSender {
      */
     public static void sendTicketNotification(Ticket ticket, String reason) {
         logger.info("Sending an email");
-        String recipient = ticket.getUser().getDetails().getEmail();
+      /*  String recipient = ticket.getUser().getDetails().getEmail();
         String sender = "railway.service@hotmail.com";
         String host = "smtp.outlook.com";
 
@@ -57,7 +57,7 @@ public class EmailSender {
             logger.info("Email notification successfully sent to user " + ticket.getUser().getLogin());
         } catch (MessagingException mex) {
             mex.printStackTrace();
-        }
+        }*/
     }
 
 

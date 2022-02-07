@@ -39,7 +39,7 @@ public class DetailDaoImpl implements DetailDao {
     public Detail find(String email) {
         session = sf.openSession();
         Transaction tx = session.beginTransaction();
-        Query<Detail> query = session.createQuery("from Detail u where email = :n");
+        Query<Detail> query = session.createQuery("from Detail where email = :n");
         query.setParameter("n", email);
         Detail detail = query.uniqueResult();
         tx.commit();

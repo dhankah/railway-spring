@@ -4,6 +4,7 @@ package com.mospan.railwayspring.controller;
 import com.mospan.railwayspring.model.db.User;
 
 import com.mospan.railwayspring.service.UserService;
+import com.mospan.railwayspring.util.trips_creator.Task;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Timer;
 
 @Controller
 @ComponentScan
